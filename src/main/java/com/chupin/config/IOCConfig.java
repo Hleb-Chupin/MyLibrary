@@ -26,7 +26,7 @@ public class IOCConfig {
     private String password;
     @Value("${db.url}")
     private String url;
-    @Value(("$db.driver"))
+    @Value(("${db.driver}"))
     private String driver;
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
@@ -35,8 +35,8 @@ public class IOCConfig {
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.dialect", hibernateDialect);
+        properties.put("hibernate.show_sql", hibernateShowSQL);
         return properties;
     }
 
@@ -44,10 +44,10 @@ public class IOCConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("root");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/bookdb");
-        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUsername(name);
+        dataSource.setPassword(password);
+        dataSource.setUrl(url);
+        dataSource.setDriverClassName(driver);
         return dataSource;
     }
 
